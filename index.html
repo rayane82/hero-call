@@ -72,6 +72,7 @@
             z-index: 1;
             box-shadow: 0 0 50px rgba(0,0,0,0.6);
             transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer; /* Indique que le centre est cliquable */
         }
 
         .central-hub.expanded {
@@ -271,6 +272,20 @@
             });
         }
 
+        // Fonction pour réinitialiser l'état (retour à l'orbite)
+        function resetOrbit() {
+            items.forEach(i => i.classList.remove('active'));
+            centralHub.classList.remove('expanded');
+            updateTransforms();
+        }
+
+        // Clique sur le centre pour revenir à l'orbite
+        centralHub.addEventListener('click', (e) => {
+            if (centralHub.classList.contains('expanded')) {
+                resetOrbit();
+            }
+        });
+
         imageUrls.forEach((url, index) => {
             const item = document.createElement('div');
             item.className = 'menu-item';
@@ -288,14 +303,17 @@
             items.push(item);
 
             item.addEventListener('click', (e) => {
+                e.stopPropagation(); // Évite que le clic ne soit capté par le hub s'il est au centre
                 const isActive = item.classList.contains('active');
                 
+                // Si on clique sur un logo, on nettoie d'abord les autres
                 items.forEach(i => i.classList.remove('active'));
                 
                 if (!isActive) {
                     item.classList.add('active');
                     centralHub.classList.add('expanded');
                 } else {
+                    // Si on ré-appuie sur le même logo alors qu'il est actif
                     centralHub.classList.remove('expanded');
                 }
                 
