@@ -11,15 +11,14 @@
             --bg-dark: #050505;
             --accent-gold: #D4AF37;
             --glow-color: rgba(212, 175, 55, 0.6);
-            /* Sizing adjusted to accommodate 18 items */
-            --circle-size: 62px;
+            --circle-size: 58px;
             --orbit-radius: 140px;
         }
 
         @media (min-width: 768px) {
             :root {
-                --circle-size: 88px;
-                --orbit-radius: 270px;
+                --circle-size: 82px;
+                --orbit-radius: 280px;
             }
         }
 
@@ -35,9 +34,9 @@
             justify-content: center;
             margin: 0;
             cursor: default;
+            user-select: none;
         }
 
-        /* Ambiance de fond inspirée de hq720.jpg */
         .background-glow {
             position: fixed;
             top: 50%;
@@ -45,11 +44,10 @@
             transform: translate(-50%, -50%);
             width: 100vw;
             height: 100vh;
-            background: radial-gradient(circle at center, rgba(30, 30, 40, 0.4) 0%, rgba(5, 5, 5, 1) 70%);
+            background: radial-gradient(circle at center, rgba(30, 30, 45, 0.4) 0%, rgba(5, 5, 5, 1) 75%);
             z-index: -1;
         }
 
-        /* Conteneur principal */
         .main-container {
             position: relative;
             width: 100%;
@@ -63,39 +61,33 @@
         /* Cercle Central */
         .central-hub {
             position: absolute;
-            width: calc(var(--circle-size) * 1.6);
-            height: calc(var(--circle-size) * 1.6);
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            width: calc(var(--circle-size) * 1.8);
+            height: calc(var(--circle-size) * 1.8);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+            border: 1px solid rgba(212, 175, 55, 0.15);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
-            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 50px rgba(0,0,0,0.6);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .central-hub.expanded {
-            transform: scale(1.3);
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 75%);
-            border-color: rgba(212, 175, 55, 0.5);
-            box-shadow: 0 0 60px rgba(212, 175, 55, 0.15);
+            transform: scale(1.4);
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 75%);
+            border-color: rgba(212, 175, 55, 0.4);
         }
 
         .central-hub::after {
             content: '';
-            width: 65%;
-            height: 65%;
+            width: 70%;
+            height: 70%;
             border: 1px dashed var(--accent-gold);
             border-radius: 50%;
-            opacity: 0.3;
-            animation: spin 25s linear infinite;
-            transition: opacity 0.5s ease;
-        }
-
-        .central-hub.expanded::after {
-            opacity: 0.6;
+            opacity: 0.2;
+            animation: spin 30s linear infinite;
         }
 
         /* Orbite des ronds */
@@ -114,48 +106,47 @@
             height: var(--circle-size);
             border-radius: 50%;
             cursor: pointer;
-            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            /* Transition fluide pour le déplacement */
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        border-color 0.4s ease, 
+                        box-shadow 0.4s ease,
+                        opacity 0.4s ease;
             z-index: 10;
             background: #0a0a0a;
-            /* Contour blanc extrêmement fin et égalisé */
-            border: 0.5px solid rgba(255, 255, 255, 0.4);
+            /* Bordure blanche extrêmement fine et égale */
+            border: 0.5px solid rgba(255, 255, 255, 0.35);
             overflow: visible; 
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.9);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.8);
         }
 
         .menu-item img {
-            width: 96%; /* Maximise la taille de l'image tout en gardant un filet blanc autour */
-            height: 96%;
+            width: 94%;
+            height: 94%;
             object-fit: cover;
             border-radius: 50%;
             pointer-events: none;
-            filter: grayscale(5%) brightness(0.98);
+            filter: brightness(0.95);
             transition: filter 0.3s;
         }
 
-        .menu-item:hover img {
-            filter: grayscale(0%) brightness(1.1);
-        }
-
-        /* État Actif */
+        /* État Actif : Placement central et agrandissement */
         .menu-item.active {
-            transform: scale(1.7) !important;
-            z-index: 50;
+            z-index: 100;
             border-color: var(--accent-gold);
-            border-width: 1.5px;
-            box-shadow: 0 0 30px var(--glow-color);
+            border-width: 1.2px;
+            box-shadow: 0 0 40px var(--glow-color);
         }
 
-        /* Fil Lumineux (Tether/YoYo) */
+        /* Fil Lumineux */
         .luminous-thread {
             position: absolute;
-            top: -12px;
-            left: -12px;
-            right: -12px;
-            bottom: -12px;
+            top: -16px;
+            left: -16px;
+            right: -16px;
+            bottom: -16px;
             border-radius: 50%;
             border: 2px solid transparent;
             pointer-events: none;
@@ -166,8 +157,8 @@
         .active .luminous-thread {
             opacity: 1;
             animation: rotate-thread 2.5s linear infinite;
-            border-top: 2px solid var(--accent-gold);
-            filter: drop-shadow(0 0 6px var(--accent-gold));
+            border-top: 2.5px solid var(--accent-gold);
+            filter: drop-shadow(0 0 8px var(--accent-gold));
         }
 
         .active .luminous-thread::after {
@@ -175,16 +166,16 @@
             position: absolute;
             top: 10%;
             right: 15%;
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             background: white;
             border-radius: 50%;
-            box-shadow: 0 0 12px 4px var(--accent-gold);
+            box-shadow: 0 0 15px 5px var(--accent-gold);
         }
 
         @keyframes rotate-thread {
             from { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.08); }
+            50% { transform: rotate(180deg) scale(1.1); }
             to { transform: rotate(360deg) scale(1); }
         }
 
@@ -193,17 +184,23 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Texte descriptif discret */
         .info-text {
             position: absolute;
             bottom: 30px;
             text-align: center;
             width: 100%;
-            font-size: 0.7rem;
-            letter-spacing: 0.3em;
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.25);
             pointer-events: none;
+        }
+
+        .central-text {
+            transition: opacity 0.5s ease;
+        }
+        .expanded .central-text {
+            opacity: 0;
         }
     </style>
 </head>
@@ -212,21 +209,18 @@
     <div class="background-glow"></div>
 
     <main class="main-container" id="app">
-        <!-- Cercle Central Décoratif -->
         <div class="central-hub" id="central-hub">
-            <div class="text-[10px] md:text-xs text-gold-500 opacity-40 uppercase tracking-widest font-light">
+            <div class="central-text text-[9px] md:text-[11px] text-gold-500 opacity-40 uppercase tracking-[0.3em] font-light">
                 Connexion
             </div>
         </div>
 
-        <!-- Les ronds seront générés ici -->
         <div class="orbit-container" id="orbit"></div>
 
-        <div class="info-text">Exploration interactive</div>
+        <div class="info-text">Touchez pour interagir</div>
     </main>
 
     <script>
-        // Liste complète des 18 images
         const imageUrls = [
             "https://i.postimg.cc/VLpZzMhV/Black-White-Grey-Round-Monogram-Typography-Logo.png",
             "https://i.postimg.cc/KcsJ5BxW/Black-White-Grey-Round-Monogram-Typography-Logo-(1).png",
@@ -240,6 +234,7 @@
             "https://i.postimg.cc/K8yGRKk5/Black-White-Grey-Round-Monogram-Typography-Logo-(10).png",
             "https://i.postimg.cc/R0hZzkn4/Black-White-Grey-Round-Monogram-Typography-Logo-(11).png",
             "https://i.postimg.cc/tTPyqpqF/Black-White-Grey-Round-Monogram-Typography-Logo-(12).png",
+            "https://i.postimg.cc/bJXcFWxM/Black-White-Grey-Round-Monogram-Typography-Logo-(13).png",
             "https://i.postimg.cc/85g9bWGb/Black-White-Grey-Round-Monogram-Typography-Logo-(14).png",
             "https://i.postimg.cc/HsvNhFHs/Black-White-Grey-Round-Monogram-Typography-Logo-(15).png",
             "https://i.postimg.cc/Qxz6b5kq/Black-White-Grey-Round-Monogram-Typography-Logo-(16).png",
@@ -252,37 +247,36 @@
         const centralHub = document.getElementById('central-hub');
         const items = [];
         const totalItems = imageUrls.length;
+        let globalRotation = 0;
 
-        // Fonction pour positionner les éléments en cercle parfait
-        function positionItems() {
+        function updateTransforms() {
             const width = window.innerWidth;
             const isMobile = width < 768;
-            const radius = isMobile ? 135 : 275;
+            const radius = isMobile ? 130 : 280;
             
             items.forEach((item, index) => {
-                const angle = (index / totalItems) * Math.PI * 2 - (Math.PI / 2);
-                const x = Math.cos(angle) * radius;
-                const y = Math.sin(angle) * radius;
-                
-                if (!item.classList.contains('active')) {
-                    item.style.transform = `translate(${x}px, ${y}px)`;
+                if (item.classList.contains('active')) {
+                    // L'élément actif se déplace au centre et reste bien droit (contre-rotation complète)
+                    item.style.transform = `translate(0px, 0px) rotate(${-globalRotation}deg) scale(2)`;
                 } else {
-                    item.style.transform = `translate(${x}px, ${y}px) scale(1.7)`;
+                    // Calcul de la position orbitale
+                    const angle = (index / totalItems) * Math.PI * 2 - (Math.PI / 2);
+                    const x = Math.cos(angle) * radius;
+                    const y = Math.sin(angle) * radius;
+                    // On applique translate ET rotate pour que le contour et l'image restent horizontaux
+                    item.style.transform = `translate(${x}px, ${y}px) rotate(${-globalRotation}deg) scale(1)`;
                 }
             });
         }
 
-        // Création des éléments
         imageUrls.forEach((url, index) => {
             const item = document.createElement('div');
             item.className = 'menu-item';
             
-            // Image interne
             const img = document.createElement('img');
             img.src = url;
             img.alt = `Logo ${index + 1}`;
             
-            // Fil lumineux
             const thread = document.createElement('div');
             thread.className = 'luminous-thread';
             
@@ -291,42 +285,35 @@
             orbit.appendChild(item);
             items.push(item);
 
-            // Interaction
             item.addEventListener('click', (e) => {
-                const wasActive = item.classList.contains('active');
+                const isActive = item.classList.contains('active');
                 
-                // Désactiver tous les autres
+                // Désactivation globale
                 items.forEach(i => i.classList.remove('active'));
                 
-                if (!wasActive) {
+                if (!isActive) {
                     item.classList.add('active');
                     centralHub.classList.add('expanded');
                 } else {
                     centralHub.classList.remove('expanded');
                 }
                 
-                positionItems();
+                updateTransforms();
             });
         });
 
-        // Responsivité
-        window.addEventListener('resize', positionItems);
-        setTimeout(positionItems, 100);
+        window.addEventListener('resize', updateTransforms);
 
-        // Animation de rotation globale subtile
-        let rotation = 0;
         function animate() {
-            rotation += 0.035; // Vitesse optimisée pour la fluidité visuelle
-            orbit.style.transform = `rotate(${rotation}deg)`;
-            // Les images tournent dans l'autre sens pour rester lisibles
-            items.forEach(item => {
-                const img = item.querySelector('img');
-                if (img) img.style.transform = `rotate(${-rotation}deg)`;
-            });
+            globalRotation += 0.035; 
+            orbit.style.transform = `rotate(${globalRotation}deg)`;
+            
+            // On met à jour les transformations à chaque frame pour garantir que tout reste droit
+            updateTransforms();
+            
             requestAnimationFrame(animate);
         }
         animate();
-
     </script>
 </body>
 </html>
