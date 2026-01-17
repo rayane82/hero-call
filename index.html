@@ -80,14 +80,21 @@
             border-color: rgba(212, 175, 55, 0.4);
         }
 
+        /* Cercle en pointillés repositionné autour de l'image sélectionnée */
         .central-hub::after {
             content: '';
-            width: 70%;
-            height: 70%;
+            position: absolute;
+            width: 105%;
+            height: 105%;
             border: 1px dashed var(--accent-gold);
             border-radius: 50%;
-            opacity: 0.2;
+            opacity: 0; /* Invisible par défaut */
+            transition: opacity 0.6s ease;
             animation: spin 30s linear infinite;
+        }
+
+        .central-hub.expanded::after {
+            opacity: 0.7; /* Apparaît uniquement lors de la sélection */
         }
 
         /* Orbite des ronds */
@@ -106,14 +113,12 @@
             height: var(--circle-size);
             border-radius: 50%;
             cursor: pointer;
-            /* Transition fluide pour le déplacement */
             transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
                         border-color 0.4s ease, 
                         box-shadow 0.4s ease,
                         opacity 0.4s ease;
             z-index: 10;
             background: #0a0a0a;
-            /* Bordure blanche extrêmement fine et égale */
             border: 0.5px solid rgba(255, 255, 255, 0.35);
             overflow: visible; 
             display: flex;
@@ -256,14 +261,11 @@
             
             items.forEach((item, index) => {
                 if (item.classList.contains('active')) {
-                    // L'élément actif se déplace au centre et reste bien droit (contre-rotation complète)
                     item.style.transform = `translate(0px, 0px) rotate(${-globalRotation}deg) scale(2)`;
                 } else {
-                    // Calcul de la position orbitale
                     const angle = (index / totalItems) * Math.PI * 2 - (Math.PI / 2);
                     const x = Math.cos(angle) * radius;
                     const y = Math.sin(angle) * radius;
-                    // On applique translate ET rotate pour que le contour et l'image restent horizontaux
                     item.style.transform = `translate(${x}px, ${y}px) rotate(${-globalRotation}deg) scale(1)`;
                 }
             });
@@ -288,7 +290,6 @@
             item.addEventListener('click', (e) => {
                 const isActive = item.classList.contains('active');
                 
-                // Désactivation globale
                 items.forEach(i => i.classList.remove('active'));
                 
                 if (!isActive) {
@@ -307,10 +308,7 @@
         function animate() {
             globalRotation += 0.035; 
             orbit.style.transform = `rotate(${globalRotation}deg)`;
-            
-            // On met à jour les transformations à chaque frame pour garantir que tout reste droit
             updateTransforms();
-            
             requestAnimationFrame(animate);
         }
         animate();
